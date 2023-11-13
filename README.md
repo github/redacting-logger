@@ -27,7 +27,7 @@ gem "redacting-logger", "~> X.X.X" # Replace X.X.X with the latest version
 ## Usage 💻
 
 ```ruby
-require "redacting-logger"
+require "redacting_logger"
 
 # Create a new logger
 logger = RedactingLogger.new(
