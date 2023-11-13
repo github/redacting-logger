@@ -1,18 +1,18 @@
-# RedactingLogger
+# redacting-logger
 
 A redacting Ruby logger to prevent the leaking of secrets via logs
 
 ## Installation 💎
 
-You can download this Gem from either [RubyGems](https://rubygems.org/gems/RedactingLogger) or [GitHub Packages](https://github.com/GrantBirki/RedactingLogger/pkgs/rubygems/RedactingLogger)
+You can download this Gem from either [RubyGems](https://rubygems.org/gems/redacting-logger) or [GitHub Packages](https://github.com/GrantBirki/redacting-logger/pkgs/rubygems/redacting-logger)
 
 RubyGems (Recommended):
 
 ```bash
-gem install RedactingLogger
+gem install redacting-logger
 ```
 
-> RubyGems [link](https://rubygems.org/gems/RedactingLogger)
+> RubyGems [link](https://rubygems.org/gems/redacting-logger)
 
 Via a Gemfile:
 
@@ -21,15 +21,24 @@ Via a Gemfile:
 
 source "https://rubygems.org"
 
-gem "RedactingLogger", "~> X.X.X" # Replace X.X.X with the latest version
+gem "redacting-logger", "~> X.X.X" # Replace X.X.X with the latest version
 ```
 
 ## Usage 💻
 
 ```ruby
-require "RedactingLogger"
+require "redacting-logger"
 
-logger = RedactingLogger.new([/REDACTED_PATTERN1/, /REDACTED_PATTERN2/], STDOUT)
+# Create a new logger
+logger = RedactingLogger.new(
+  redact_patterns: [/REDACTED_PATTERN1/, /REDACTED_PATTERN2/], # An array of Regexp patterns to redact from the logs
+  log_device: $stdout, # The device to log to
+  level: Logger::INFO, # The log level to use
+  redacted_msg: "[REDACTED]", # The message to replace the redacted patterns with
+  use_default_patterns: true # Whether to use the default built-in patterns or not
+)
+
+# Log a message that contains some redacted patterns
 logger.info("This is a message with a REDACTED_PATTERN1 and REDACTED_PATTERN2 in it.")
 ```
 
