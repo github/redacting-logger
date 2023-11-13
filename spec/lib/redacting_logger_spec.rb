@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "logger"
 require "stringio"
 require_relative "../spec_helper"

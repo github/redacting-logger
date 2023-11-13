@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "logger"
 
 # RedactingLogger is a custom logger that extends the standard Logger class.
