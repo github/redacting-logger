@@ -42,7 +42,7 @@ describe RedactingLogger do
 
   context "#add" do
     let(:log_device) { StringIO.new }
-    let(:logger) { RedactingLogger.new(redact_patterns: ["secret", "password"], log_device:) }
+    let(:logger) { RedactingLogger.new(redact_patterns: [/secret/, /password/, /token_[A-Z]{5}/], log_device:) }
 
     it "ensures the message is redacted" do
       logger.info { ["This is a secret password", nil] }
@@ -88,6 +88,48 @@ describe RedactingLogger do
       log_device.rewind
       log_output = log_device.read
       expect(log_output).to match(/logging in with token \[REDACTED\] .../)
+    end
+
+    it "redacts a fine-grained GitHub Personal Access Token" do
+      # This token is not real, but it is the correct length and format
+      token = "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"
+
+      logger.warn("oh no, I failed to login with that token: #{token}, try again")
+
+      log_device.rewind
+      log_output = log_device.read
+      expect(log_output).to match(/oh no, I failed to login with that token: \[REDACTED\], try again/)
+    end
+
+    it "redacts a GitHub Actions temp token" do
+      token = "ghs_1234567890abcdefghijklmnopqrstuvwxyz123456"
+
+      logger.debug("GitHub Actions token: #{token}")
+
+      log_device.rewind
+      log_output = log_device.read
+      expect(log_output).to match(/GitHub Actions token: \[REDACTED\]/)
+    end
+
+    it "redacts a custom token" do
+      token = "token_ABCDE"
+
+      logger.fatal("Custom token: #{token}")
+
+      log_device.rewind
+      log_output = log_device.read
+      expect(log_output).to match(/Custom token: \[REDACTED\]/)
+    end
+
+    it "does not remove a token that is too short" do
+      token = "token_ABCD"
+
+      logger.fatal("Custom token: #{token}")
+
+      log_device.rewind
+      log_output = log_device.read
+
+      expect(log_output).to match(/Custom token: token_ABCD/)
     end
   end
 end
