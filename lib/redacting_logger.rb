@@ -5,10 +5,10 @@ require "logger"
 class RedactingLogger < Logger
   # Initializes a new instance of the RedactingLogger class.
   #
-  # @param redact_patterns [Array<String>] The patterns to redact from the log messages.
-  # @param log_device [Object] The log device (file, STDOUT, etc.) to write to.
+  # @param redact_patterns [Array<String>] The patterns to redact from the log messages. Defaults to [].
+  # @param log_device [Object] The log device (file, STDOUT, etc.) to write to. Defaults to STDOUT.
   # @param kwargs [Hash] Additional options to pass to the Logger class.
-  def initialize(redact_patterns, log_device, **kwargs)
+  def initialize(redact_patterns: [], log_device: STDOUT, **kwargs)
     super(log_device, **kwargs)
     @redact_patterns = redact_patterns
   end
