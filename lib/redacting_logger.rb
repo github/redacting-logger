@@ -11,13 +11,13 @@ class RedactingLogger < Logger
   def add(severity, message = nil, progname = nil)
     if message
       @redact_patterns.each do |pattern|
-        message = message.to_s.gsub(pattern, '[REDACTED]')
+        message = message.to_s.gsub(pattern, "[REDACTED]")
       end
     end
 
     if progname
       @redact_patterns.each do |pattern|
-        progname = progname.to_s.gsub(pattern, '[REDACTED]')
+        progname = progname.to_s.gsub(pattern, "[REDACTED]")
       end
     end
 
