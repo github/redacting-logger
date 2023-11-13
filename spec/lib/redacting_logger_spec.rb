@@ -51,5 +51,13 @@ describe RedactingLogger do
 
       expect(log_output).to match(/\[REDACTED\]: This is a message/)
     end
+
+    it "redacts the message when it is a substring of the redact pattern" do
+      logger.info("This is a supersecretmessage")
+
+      log_device.rewind
+      log_output = log_device.read
+      expect(log_output).to match(/This is a super\[REDACTED\]message/)
+    end
   end
 end
