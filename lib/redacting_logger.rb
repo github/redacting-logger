@@ -7,10 +7,12 @@ class RedactingLogger < Logger
   #
   # @param redact_patterns [Array<String>] The patterns to redact from the log messages. Defaults to [].
   # @param log_device [Object] The log device (file, STDOUT, etc.) to write to. Defaults to STDOUT.
+  # @param redacted_msg [String] The message to replace the redacted patterns with.
   # @param kwargs [Hash] Additional options to pass to the Logger class.
-  def initialize(redact_patterns: [], log_device: STDOUT, **kwargs)
+  def initialize(redact_patterns: [], log_device: STDOUT, redacted_msg: "[REDACTED]", **kwargs)
     super(log_device, **kwargs)
     @redact_patterns = redact_patterns
+    @redacted_msg = redacted_msg
   end
 
   # Adds a message to the log.
@@ -21,13 +23,13 @@ class RedactingLogger < Logger
   def add(severity, message = nil, progname = nil)
     if message
       @redact_patterns.each do |pattern|
-        message = message.to_s.gsub(pattern, "[REDACTED]")
+        message = message.to_s.gsub(pattern, @redacted_msg)
       end
     end
 
     if progname
       @redact_patterns.each do |pattern|
-        progname = progname.to_s.gsub(pattern, "[REDACTED]")
+        progname = progname.to_s.gsub(pattern, @redacted_msg)
       end
     end
 
