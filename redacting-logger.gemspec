@@ -3,7 +3,7 @@
 require_relative "lib/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "RedactingLogger"
+  spec.name          = "redacting-logger"
   spec.version       = RedactingLogger::Version::VERSION
   spec.authors       = ["Grant Birkinbine"]
   spec.email         = "grant.birkinbine@gmail.com"
@@ -14,18 +14,18 @@ Gem::Specification.new do |spec|
     A redacting Ruby logger to prevent the leaking of secrets via logs
   SPEC_DESC
 
-  spec.homepage = "https://github.com/grantbirki/RedactingLogger"
+  spec.homepage = "https://github.com/grantbirki/redacting-logger"
   spec.metadata = {
-    "source_code_uri" => "https://github.com/grantbirki/RedactingLogger",
-    "documentation_uri" => "https://github.com/grantbirki/RedactingLogger",
-    "bug_tracker_uri" => "https://github.com/grantbirki/RedactingLogger/issues"
+    "source_code_uri" => "https://github.com/grantbirki/redacting-logger",
+    "documentation_uri" => "https://github.com/grantbirki/redacting-logger",
+    "bug_tracker_uri" => "https://github.com/grantbirki/redacting-logger/issues"
   }
 
   spec.add_dependency "logger", "~> 1.6"
 
   spec.required_ruby_version = Gem::Requirement.new(">= 3.0.0")
 
-  spec.files = %w[LICENSE README.md RedactingLogger.gemspec]
+  spec.files = %w[LICENSE README.md redacting-logger.gemspec]
   spec.files += Dir.glob("lib/**/*.rb")
   spec.require_paths = ["lib"]
 end
