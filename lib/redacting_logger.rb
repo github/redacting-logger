@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "logger"
+require_relative "patterns/default"
 
 # RedactingLogger is a custom logger that extends the standard Logger class.
 # It redacts specified patterns in the log messages.
@@ -22,17 +23,7 @@ class RedactingLogger < Logger
     super(log_device, **kwargs)
     @redact_patterns = redact_patterns
     @redacted_msg = redacted_msg
-    add_default_patterns if use_default_patterns
-  end
-
-  # Helper method for adding built-in patterns to the redact_patterns array.
-  #
-  # @return [Array<String>] The updated redact_patterns array.
-  def add_default_patterns
-    @redact_patterns += [
-      /^ghp_[a-zA-Z0-9]{36}$/, # GitHub Personal Access Token
-      /^github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}$/ # GitHub Personal Access Token (fine-grained)
-    ]
+    @redact_patterns += Patterns::DEFAULT if use_default_patterns
   end
 
   # Adds a message to the log.
