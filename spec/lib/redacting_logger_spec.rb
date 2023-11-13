@@ -30,6 +30,14 @@ describe RedactingLogger do
       expect(logger.instance_variable_get(:@logdev).dev).to eq($stdout)
       expect(logger.instance_variable_get(:@redacted_msg)).to eq("[REDACTED]")
     end
+
+    it "ensures the class is initialized properly with default values and uses built-in patterns" do
+      logger = RedactingLogger.new(use_default_patterns: true)
+      expect(logger.level).to eq(Logger::DEBUG)
+      expect(logger.instance_variable_get(:@redact_patterns).length).to be > 0
+      expect(logger.instance_variable_get(:@logdev).dev).to eq($stdout)
+      expect(logger.instance_variable_get(:@redacted_msg)).to eq("[REDACTED]")
+    end
   end
 
   context "#add" do

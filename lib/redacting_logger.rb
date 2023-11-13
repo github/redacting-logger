@@ -25,9 +25,13 @@ class RedactingLogger < Logger
     add_default_patterns if use_default_patterns
   end
 
+  # Helper method for adding built-in patterns to the redact_patterns array.
+  #
+  # @return [Array<String>] The updated redact_patterns array.
   def add_default_patterns
     @redact_patterns += [
-      /^ghp_[a-zA-Z0-9]{36}$/
+      /^ghp_[a-zA-Z0-9]{36}$/, # GitHub Personal Access Token
+      /^github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}$/ # GitHub Personal Access Token (fine-grained)
     ]
   end
 
