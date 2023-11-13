@@ -1,6 +1,10 @@
 # redacting-logger
 
+[![test](https://github.com/GrantBirki/redacting-logger/actions/workflows/test.yml/badge.svg)](https://github.com/GrantBirki/redacting-logger/actions/workflows/test.yml) [![lint](https://github.com/GrantBirki/redacting-logger/actions/workflows/lint.yml/badge.svg)](https://github.com/GrantBirki/redacting-logger/actions/workflows/lint.yml) [![build](https://github.com/GrantBirki/redacting-logger/actions/workflows/build.yml/badge.svg)](https://github.com/GrantBirki/redacting-logger/actions/workflows/build.yml) [![CodeQL](https://github.com/GrantBirki/redacting-logger/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/GrantBirki/redacting-logger/actions/workflows/codeql-analysis.yml) [![release](https://github.com/GrantBirki/redacting-logger/actions/workflows/release.yml/badge.svg)](https://github.com/GrantBirki/redacting-logger/actions/workflows/release.yml)
+
 A redacting Ruby logger to prevent the leaking of secrets via logs
+
+![Gem](docs/assets/gem.png)
 
 ## Installation 💎
 
