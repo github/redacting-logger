@@ -1,6 +1,6 @@
 require "logger"
+require_relative "../spec_helper"
 require_relative "../../lib/redacting_logger"
-require "rspec"
 
 describe RedactingLogger do
   context "#initialize" do
