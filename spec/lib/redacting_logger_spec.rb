@@ -31,16 +31,25 @@ describe RedactingLogger do
   end
 
   context "#add" do
-    it "ensures the message is redacted" do
-      log_device = StringIO.new
-      logger = RedactingLogger.new(redact_patterns: ["secret", "password"], log_device:)
+    let(:log_device) { StringIO.new }
+    let(:logger) { RedactingLogger.new(redact_patterns: ["secret", "password"], log_device:) }
 
-      logger.info("This is a secret password")
+    it "ensures the message is redacted" do
+      logger.info { ["This is a secret password", nil] }
 
       log_device.rewind
       log_output = log_device.read
 
       expect(log_output).to match(/This is a \[REDACTED\] \[REDACTED\]/)
+    end
+
+    it "ensures the progname is redacted" do
+      logger.info { ["This is a message", "secret"] }
+
+      log_device.rewind
+      log_output = log_device.read
+
+      expect(log_output).to match(/\[REDACTED\]: This is a message/)
     end
   end
 end

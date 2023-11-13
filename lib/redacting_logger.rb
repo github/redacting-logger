@@ -21,15 +21,19 @@ class RedactingLogger < Logger
   # @param message [String] The message to log.
   # @param progname [String] The name of the program.
   def add(severity, message = nil, progname = nil)
+    if block_given?
+      message, progname = yield
+    end
+
     if message
       @redact_patterns.each do |pattern|
-        message = message.to_s.gsub(pattern, @redacted_msg)
+        message = message.to_s.gsub(pattern, "[REDACTED]")
       end
     end
 
     if progname
       @redact_patterns.each do |pattern|
-        progname = progname.to_s.gsub(pattern, @redacted_msg)
+        progname = progname.to_s.gsub(pattern, "[REDACTED]")
       end
     end
 
