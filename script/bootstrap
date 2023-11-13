@@ -1,0 +1,32 @@
+#! /usr/bin/env bash
+
+# COLORS
+OFF='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+
+set -e # Prevent any kind of script failures
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
+[ -z "$RBENV_VERSION" ] && export RBENV_VERSION=$(cat "$DIR/.ruby-version")
+[ -z "$APP_ENV" ] && export APP_ENV="development"
+[ -d "/usr/share/rbenv/shims" ] && export PATH=/usr/share/rbenv/shims:$PATH
+
+TRASHDIR=$(mktemp -d /tmp/bootstrap.XXXXXXXXXXXXXXXXX)
+cleanup() {
+  rm -rf "$TRASHDIR"
+  # Remove empty directory
+  rmdir "$DIR/vendor/cache" 2>/dev/null || true
+}
+trap cleanup EXIT
+
+# Bootstrap gem dependencies.
+echo -e "💎 ${BLUE}Installing Gems...${OFF}"
+if [ "$APP_ENV" == "production" ]; then
+  bundle install --path vendor/gems --local --without development
+  bundle binstubs --all
+else
+  bundle install --path vendor/gems --local --with development
+  bundle binstubs --all
+fi

@@ -1,0 +1,21 @@
+inherit_gem:
+  rubocop-github:
+    - config/default.yml
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  DisplayCopNames: true
+  TargetRubyVersion: 3.2
+  Exclude:
+    - 'bin/*'
+    - 'spec/acceptance/fixtures/**/*'
+    - 'spec/unit/fixtures/**/*'
+    - 'vendor/**/*'
+    - '.github/**/*'
+
+Style/HashSyntax:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Max: 15

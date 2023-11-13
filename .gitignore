@@ -1,0 +1,16 @@
+.bundle
+bin
+coverage
+logs
+tmp
+vendor/gems
+.idea
+.byebug_history
+.local/
+.DS_Store
+.lesshst
+*.pem
+*.key
+*.crt
+*.csr
+*.secret

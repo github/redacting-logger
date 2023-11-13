@@ -1,0 +1,26 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@52b8784594ec115fd17094752708121dc5dabb47 # pin@v1.154.0
+        with:
+          bundler-cache: true
+
+      - name: test
+        run: script/test -k
