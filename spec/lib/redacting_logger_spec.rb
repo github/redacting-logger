@@ -69,5 +69,25 @@ describe RedactingLogger do
       log_output = log_device.read
       expect(log_output).to match(/This is a super\[REDACTED\]message/)
     end
+
+    it "redacts a GitHub Personal Access Token that is 40 characters" do
+      token = "ghp_aBcdeFghIjklMnoPqRSTUvwXYZ1234567890"
+
+      logger.info("logging in with token #{token} ...")
+
+      log_device.rewind
+      log_output = log_device.read
+      expect(log_output).to match(/logging in with token \[REDACTED\] .../)
+    end
+
+    it "redacts a GitHub Personal Access Token got mashed with another string" do
+      token = "ghp_aBcdeFghIjklMnoPqRSTUvwXYZ1234567890ohnothisisnotgood"
+
+      logger.info("logging in with token #{token} ...")
+
+      log_device.rewind
+      log_output = log_device.read
+      expect(log_output).to match(/logging in with token \[REDACTED\] .../)
+    end
   end
 end
