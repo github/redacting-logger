@@ -51,3 +51,20 @@ This will output:
 ```text
 I, [timestamp]  INFO -- : This is a message with a [REDACTED] and [REDACTED] in it.
 ```
+
+## Default Redaction Patterns
+
+This Gem comes pre-built with a few redaction patterns to help you get started. These patterns can be located in [`lib/patterns/default.rb`](lib/patterns/default.rb)
+
+A few examples of these patterns are:
+
+- GitHub Personal Access Tokens
+- GitHub Temporary Actions Tokens
+
+You can disable these default patterns with:
+
+```ruby
+logger = RedactingLogger.new(
+  use_default_patterns: false # Whether to use the default built-in patterns or not
+)
+```
