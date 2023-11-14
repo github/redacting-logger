@@ -32,6 +32,26 @@ gem "redacting-logger", "~> X.X.X" # Replace X.X.X with the latest version
 
 ## Usage 💻
 
+### Basic
+
+```ruby
+require "redacting_logger"
+
+# Create a new logger
+logger = RedactingLogger.new(redact_patterns: [/topsecret/])
+
+# Log a message that contains some redacted pattern
+logger.info("This is a topsecret message.")
+```
+
+This will output:
+
+```text
+I, [timestamp]  INFO -- : This is a [REDACTED] message.
+```
+
+### Advanced
+
 ```ruby
 require "redacting_logger"
 
