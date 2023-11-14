@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "logger"
 require "stringio"
 require_relative "../spec_helper"
@@ -10,8 +11,8 @@ describe RedactingLogger do
       redact_patterns = ["secret", "password"]
       level = Logger::INFO
       logger = RedactingLogger.new(
+        $stdout,
         redact_patterns:,
-        log_device: $stdout,
         level:,
         redacted_msg: "!!!REDACTED!!!",
         use_default_patterns: false
@@ -32,7 +33,7 @@ describe RedactingLogger do
     end
 
     it "ensures the class is initialized properly with default values and uses built-in patterns" do
-      logger = RedactingLogger.new(use_default_patterns: true)
+      logger = RedactingLogger.new($stdout, use_default_patterns: true)
       expect(logger.level).to eq(Logger::DEBUG)
       expect(logger.instance_variable_get(:@redact_patterns).length).to be > 0
       expect(logger.instance_variable_get(:@logdev).dev).to eq($stdout)
@@ -41,14 +42,14 @@ describe RedactingLogger do
   end
 
   context "#add" do
-    let(:log_device) { StringIO.new }
-    let(:logger) { RedactingLogger.new(redact_patterns: [/secret/, /password/, /token_[A-Z]{5}/], log_device:) }
+    let(:logdev) { StringIO.new }
+    let(:logger) { RedactingLogger.new(logdev, redact_patterns: [/secret/, /password/, /token_[A-Z]{5}/]) }
 
     it "ensures the message is redacted" do
       logger.info { ["This is a secret password", nil] }
 
-      log_device.rewind
-      log_output = log_device.read
+      logdev.rewind
+      log_output = logdev.read
 
       expect(log_output).to match(/This is a \[REDACTED\] \[REDACTED\]/)
     end
@@ -56,8 +57,8 @@ describe RedactingLogger do
     it "ensures the progname is redacted" do
       logger.info { ["This is a message", "secret"] }
 
-      log_device.rewind
-      log_output = log_device.read
+      logdev.rewind
+      log_output = logdev.read
 
       expect(log_output).to match(/\[REDACTED\]: This is a message/)
     end
@@ -65,8 +66,8 @@ describe RedactingLogger do
     it "redacts the message when it is a substring of the redact pattern" do
       logger.info("This is a supersecretmessage")
 
-      log_device.rewind
-      log_output = log_device.read
+      logdev.rewind
+      log_output = logdev.read
       expect(log_output).to match(/This is a super\[REDACTED\]message/)
     end
 
@@ -75,8 +76,8 @@ describe RedactingLogger do
 
       logger.info("logging in with token #{token} ...")
 
-      log_device.rewind
-      log_output = log_device.read
+      logdev.rewind
+      log_output = logdev.read
       expect(log_output).to match(/logging in with token \[REDACTED\] .../)
     end
 
@@ -85,8 +86,8 @@ describe RedactingLogger do
 
       logger.info("logging in with token #{token} ...")
 
-      log_device.rewind
-      log_output = log_device.read
+      logdev.rewind
+      log_output = logdev.read
       expect(log_output).to match(/logging in with token \[REDACTED\] .../)
     end
 
@@ -96,8 +97,8 @@ describe RedactingLogger do
 
       logger.warn("oh no, I failed to login with that token: #{token}, try again")
 
-      log_device.rewind
-      log_output = log_device.read
+      logdev.rewind
+      log_output = logdev.read
       expect(log_output).to match(/oh no, I failed to login with that token: \[REDACTED\], try again/)
     end
 
@@ -106,8 +107,8 @@ describe RedactingLogger do
 
       logger.debug("GitHub Actions token: #{token}")
 
-      log_device.rewind
-      log_output = log_device.read
+      logdev.rewind
+      log_output = logdev.read
       expect(log_output).to match(/GitHub Actions token: \[REDACTED\]/)
     end
 
@@ -116,8 +117,8 @@ describe RedactingLogger do
 
       logger.fatal("Custom token: #{token}")
 
-      log_device.rewind
-      log_output = log_device.read
+      logdev.rewind
+      log_output = logdev.read
       expect(log_output).to match(/Custom token: \[REDACTED\]/)
     end
 
@@ -126,8 +127,8 @@ describe RedactingLogger do
 
       logger.fatal("Custom token: #{token}")
 
-      log_device.rewind
-      log_output = log_device.read
+      logdev.rewind
+      log_output = logdev.read
 
       expect(log_output).to match(/Custom token: token_ABCD/)
     end

@@ -57,8 +57,8 @@ require "redacting_logger"
 
 # Create a new logger
 logger = RedactingLogger.new(
+  $stdout, # The device to log to (defaults to $stdout if not provided)
   redact_patterns: [/REDACTED_PATTERN1/, /REDACTED_PATTERN2/], # An array of Regexp patterns to redact from the logs
-  log_device: $stdout, # The device to log to
   level: Logger::INFO, # The log level to use
   redacted_msg: "[REDACTED]", # The message to replace the redacted patterns with
   use_default_patterns: true # Whether to use the default built-in patterns or not
