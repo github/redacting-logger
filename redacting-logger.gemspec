@@ -14,11 +14,11 @@ Gem::Specification.new do |spec|
     A redacting Ruby logger to prevent the leaking of secrets via logs
   SPEC_DESC
 
-  spec.homepage = "https://github.com/grantbirki/redacting-logger"
+  spec.homepage = "https://github.com/github/redacting-logger"
   spec.metadata = {
-    "source_code_uri" => "https://github.com/grantbirki/redacting-logger",
-    "documentation_uri" => "https://github.com/grantbirki/redacting-logger",
-    "bug_tracker_uri" => "https://github.com/grantbirki/redacting-logger/issues"
+    "source_code_uri" => "https://github.com/github/redacting-logger",
+    "documentation_uri" => "https://github.com/github/redacting-logger",
+    "bug_tracker_uri" => "https://github.com/github/redacting-logger/issues"
   }
 
   spec.add_dependency "logger", "~> 1.6"

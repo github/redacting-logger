@@ -1,6 +1,6 @@
 # redacting-logger
 
-[![test](https://github.com/GrantBirki/redacting-logger/actions/workflows/test.yml/badge.svg)](https://github.com/GrantBirki/redacting-logger/actions/workflows/test.yml) [![lint](https://github.com/GrantBirki/redacting-logger/actions/workflows/lint.yml/badge.svg)](https://github.com/GrantBirki/redacting-logger/actions/workflows/lint.yml) [![build](https://github.com/GrantBirki/redacting-logger/actions/workflows/build.yml/badge.svg)](https://github.com/GrantBirki/redacting-logger/actions/workflows/build.yml) [![CodeQL](https://github.com/GrantBirki/redacting-logger/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/GrantBirki/redacting-logger/actions/workflows/codeql-analysis.yml) [![release](https://github.com/GrantBirki/redacting-logger/actions/workflows/release.yml/badge.svg)](https://github.com/GrantBirki/redacting-logger/actions/workflows/release.yml)
+[![test](https://github.com/github/redacting-logger/actions/workflows/test.yml/badge.svg)](https://github.com/github/redacting-logger/actions/workflows/test.yml) [![lint](https://github.com/github/redacting-logger/actions/workflows/lint.yml/badge.svg)](https://github.com/github/redacting-logger/actions/workflows/lint.yml) [![build](https://github.com/github/redacting-logger/actions/workflows/build.yml/badge.svg)](https://github.com/github/redacting-logger/actions/workflows/build.yml) [![CodeQL](https://github.com/github/redacting-logger/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/github/redacting-logger/actions/workflows/codeql-analysis.yml) [![release](https://github.com/github/redacting-logger/actions/workflows/release.yml/badge.svg)](https://github.com/github/redacting-logger/actions/workflows/release.yml)
 
 A redacting Ruby logger to prevent the leaking of secrets via logs
 
@@ -10,7 +10,7 @@ A redacting Ruby logger to prevent the leaking of secrets via logs
 
 ## Installation 💎
 
-You can download this Gem from either [RubyGems](https://rubygems.org/gems/redacting-logger) or [GitHub Packages](https://github.com/GrantBirki/redacting-logger/pkgs/rubygems/redacting-logger)
+You can download this Gem from either [RubyGems](https://rubygems.org/gems/redacting-logger) or [GitHub Packages](https://github.com/github/redacting-logger/pkgs/rubygems/redacting-logger)
 
 RubyGems (Recommended):
 
