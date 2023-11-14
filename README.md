@@ -10,15 +10,7 @@ A redacting Ruby logger to prevent the leaking of secrets via logs
 
 ## Installation 💎
 
-You can download this Gem from either [RubyGems](https://rubygems.org/gems/redacting-logger) or [GitHub Packages](https://github.com/github/redacting-logger/pkgs/rubygems/redacting-logger)
-
-RubyGems (Recommended):
-
-```bash
-gem install redacting-logger
-```
-
-> RubyGems [link](https://rubygems.org/gems/redacting-logger)
+You can download this Gem from [GitHub Packages](https://github.com/github/redacting-logger/pkgs/rubygems/redacting-logger)
 
 Via a Gemfile:
 
@@ -27,7 +19,9 @@ Via a Gemfile:
 
 source "https://rubygems.org"
 
-gem "redacting-logger", "~> X.X.X" # Replace X.X.X with the latest version
+source "https://rubygems.pkg.github.com/github" do
+  gem "redacting-logger", "~> X.X.X" # Replace X.X.X with the latest version
+end
 ```
 
 ## Usage 💻
