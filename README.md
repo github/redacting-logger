@@ -4,6 +4,8 @@
 
 A redacting Ruby logger to prevent the leaking of secrets via logs
 
+> This Gem wraps the official Ruby [`logger`](https://github.com/ruby/logger) utility
+
 ![Gem](docs/assets/gem.png)
 
 ## Installation 💎
