@@ -132,5 +132,27 @@ describe RedactingLogger do
 
       expect(log_output).to match(/Custom token: token_ABCD/)
     end
+
+    it "redacts a JWT token" do
+      # this is a dummy JWT token, but it is the correct length and format
+      token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+
+      logger.info("JWT token: #{token}")
+
+      logdev.rewind
+      log_output = logdev.read
+
+      expect(log_output).to match(/JWT token: \[REDACTED\]/)
+    end
+
+    it "redacts a RSA private key" do
+      fake_private_key = File.read("spec/fixtures/fake.private_key")
+
+      logger.info("RSA private key: #{fake_private_key}")
+
+      logdev.rewind
+      log_output = logdev.read
+      expect(log_output).to match(/RSA private key: \[REDACTED\]/)
+    end
   end
 end

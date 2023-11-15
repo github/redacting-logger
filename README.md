@@ -76,6 +76,8 @@ A few examples of these patterns are:
 
 - GitHub Personal Access Tokens
 - GitHub Temporary Actions Tokens
+- RSA Private Keys
+- JWT Tokens
 
 You can disable these default patterns with:
 
