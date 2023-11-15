@@ -144,5 +144,15 @@ describe RedactingLogger do
 
       expect(log_output).to match(/JWT token: \[REDACTED\]/)
     end
+
+    it "redacts a RSA private key" do
+      fake_private_key = File.read("spec/fixtures/fake.private_key")
+
+      logger.info("RSA private key: #{fake_private_key}")
+
+      logdev.rewind
+      log_output = logdev.read
+      expect(log_output).to match(/RSA private key: \[REDACTED\]/)
+    end
   end
 end
