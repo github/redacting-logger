@@ -26,7 +26,7 @@ class RedactingLogger < Logger
     use_default_patterns: true,
     **kwargs
   )
-    super(logdev, **kwargs)
+    super(logdev, shift_age, shift_size, **kwargs)
     @redact_patterns = redact_patterns
     @redacted_msg = redacted_msg
     @redact_patterns += Patterns::DEFAULT if use_default_patterns
@@ -42,13 +42,13 @@ class RedactingLogger < Logger
 
     if message
       @redact_patterns.each do |pattern|
-        message = message.to_s.gsub(pattern, "[REDACTED]")
+        message = message.to_s.gsub(pattern, @redacted_msg)
       end
     end
 
     if progname
       @redact_patterns.each do |pattern|
-        progname = progname.to_s.gsub(pattern, "[REDACTED]")
+        progname = progname.to_s.gsub(pattern, @redacted_msg)
       end
     end
 
