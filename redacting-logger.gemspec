@@ -5,8 +5,8 @@ require_relative "lib/version"
 Gem::Specification.new do |spec|
   spec.name          = "redacting-logger"
   spec.version       = RedactingLogger::Version::VERSION
-  spec.authors       = ["Grant Birkinbine"]
-  spec.email         = "grant.birkinbine@gmail.com"
+  spec.authors       = ["GitHub", "GitHub Security"]
+  spec.email         = "opensource@github.com"
   spec.license       = "MIT"
 
   spec.summary       = "A redacting Ruby logger to prevent the leaking of secrets via logs"
