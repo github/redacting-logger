@@ -5,7 +5,7 @@ source "https://rubygems.org"
 gem "logger", "~> 1.6"
 
 group :development do
-  gem "irb", "~> 1.8"
+  gem "irb", "~> 1.9"
   gem "rspec", "~> 3.12"
   gem "rubocop", "~> 1.56"
   gem "rubocop-github", "~> 0.20"
