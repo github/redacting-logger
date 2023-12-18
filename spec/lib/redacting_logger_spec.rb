@@ -45,7 +45,80 @@ describe RedactingLogger do
     let(:logdev) { StringIO.new }
     let(:logger) { RedactingLogger.new(logdev, redact_patterns: [/secret/, /password/, /token_[A-Z]{5}/]) }
 
-    it "ensures the message is redacted" do
+    [
+      {
+        case: "secret message",
+        message: "This is a secret password",
+        expected_message: "This is a [REDACTED] [REDACTED]",
+      },
+      {
+        case: "secret progname",
+        progname: "secret progname",
+        expected_progname: "[REDACTED] progname",
+      },
+      {
+        case: "secret substring",
+        message: "This is a supersecretmessage",
+        expected_message: "This is a super[REDACTED]message",
+      },
+      {
+        case: "github token",
+        message: "token ghp_aBcdeFghIjklMnoPqRSTUvwXYZ1234567890",
+        expected_message: "token [REDACTED]",
+      },
+      {
+        case: "github token hidden in another string",
+        message: "token ghp_aBcdeFghIjklMnoPqRSTUvwXYZ1234567890ohnothisisnotgood",
+        expected_message: "token [REDACTED]",
+      },
+      {
+        case: "fine-grained github pat",
+        message: "token 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",
+        expected_message: "token [REDACTED]",
+      },
+      {
+        case: "github action pat",
+        message: "token ghs_1234567890abcdefghijklmnopqrstuvwxyz123456",
+        expected_message: "token [REDACTED]123456",
+      },
+      {
+        case: "custom token",
+        message: "token token_ABCDE",
+        expected_message: "token [REDACTED]",
+      },
+      {
+        case: "custom token only if long enough",
+        message: "token token_ABCD",
+        expected_message: "token token_ABCD",
+      },
+      {
+        case: "JWT token",
+        message: "token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+        expected_message: "token [REDACTED]",
+      },
+      {
+        case: "RSA private key",
+        message: "token #{File.read("spec/fixtures/fake.private_key")}",
+        expected_message: "token [REDACTED]-\n",
+      },
+      {
+        case: "list of messages",
+        message: ["this", "is", "a", "secret"],
+        expected_message: ["this", "is", "a", "[REDACTED]"],
+      },
+      {
+        case: "hash of messages",
+        message: { this: "is", "a" => "secret" },
+        expected_message: { this: "is", "a" => "[REDACTED]" },
+      },
+    ].each do |test|
+      it "redacts #{test[:case]}" do
+        expect_any_instance_of(Logger).to receive(:add).with(0, test[:expected_message], test[:expected_progname])
+        logger.add(0, test[:message], test[:progname])
+      end
+    end
+
+    it "redacts with given block" do
       logger.info { ["This is a secret password", nil] }
 
       logdev.rewind
@@ -54,105 +127,5 @@ describe RedactingLogger do
       expect(log_output).to match(/This is a \[REDACTED\] \[REDACTED\]/)
     end
 
-    it "ensures the progname is redacted" do
-      logger.info { ["This is a message", "secret"] }
-
-      logdev.rewind
-      log_output = logdev.read
-
-      expect(log_output).to match(/\[REDACTED\]: This is a message/)
-    end
-
-    it "redacts the message when it is a substring of the redact pattern" do
-      logger.info("This is a supersecretmessage")
-
-      logdev.rewind
-      log_output = logdev.read
-      expect(log_output).to match(/This is a super\[REDACTED\]message/)
-    end
-
-    it "redacts a GitHub Personal Access Token that is 40 characters" do
-      token = "ghp_aBcdeFghIjklMnoPqRSTUvwXYZ1234567890"
-
-      logger.info("logging in with token #{token} ...")
-
-      logdev.rewind
-      log_output = logdev.read
-      expect(log_output).to match(/logging in with token \[REDACTED\] .../)
-    end
-
-    it "redacts a GitHub Personal Access Token got mashed with another string" do
-      token = "ghp_aBcdeFghIjklMnoPqRSTUvwXYZ1234567890ohnothisisnotgood"
-
-      logger.info("logging in with token #{token} ...")
-
-      logdev.rewind
-      log_output = logdev.read
-      expect(log_output).to match(/logging in with token \[REDACTED\] .../)
-    end
-
-    it "redacts a fine-grained GitHub Personal Access Token" do
-      # This token is not real, but it is the correct length and format
-      token = "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"
-
-      logger.warn("oh no, I failed to login with that token: #{token}, try again")
-
-      logdev.rewind
-      log_output = logdev.read
-      expect(log_output).to match(/oh no, I failed to login with that token: \[REDACTED\], try again/)
-    end
-
-    it "redacts a GitHub Actions temp token" do
-      token = "ghs_1234567890abcdefghijklmnopqrstuvwxyz123456"
-
-      logger.debug("GitHub Actions token: #{token}")
-
-      logdev.rewind
-      log_output = logdev.read
-      expect(log_output).to match(/GitHub Actions token: \[REDACTED\]/)
-    end
-
-    it "redacts a custom token" do
-      token = "token_ABCDE"
-
-      logger.fatal("Custom token: #{token}")
-
-      logdev.rewind
-      log_output = logdev.read
-      expect(log_output).to match(/Custom token: \[REDACTED\]/)
-    end
-
-    it "does not remove a token that is too short" do
-      token = "token_ABCD"
-
-      logger.fatal("Custom token: #{token}")
-
-      logdev.rewind
-      log_output = logdev.read
-
-      expect(log_output).to match(/Custom token: token_ABCD/)
-    end
-
-    it "redacts a JWT token" do
-      # this is a dummy JWT token, but it is the correct length and format
-      token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-
-      logger.info("JWT token: #{token}")
-
-      logdev.rewind
-      log_output = logdev.read
-
-      expect(log_output).to match(/JWT token: \[REDACTED\]/)
-    end
-
-    it "redacts a RSA private key" do
-      fake_private_key = File.read("spec/fixtures/fake.private_key")
-
-      logger.info("RSA private key: #{fake_private_key}")
-
-      logdev.rewind
-      log_output = logdev.read
-      expect(log_output).to match(/RSA private key: \[REDACTED\]/)
-    end
   end
 end
