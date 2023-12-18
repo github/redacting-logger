@@ -35,14 +35,26 @@ class RedactingLogger < Logger
   # Adds a message to the log.
   #
   # @param severity [Integer] The severity level of the message.
-  # @param message [String] The message to log.
+  # @param message [String|Array|Hash] The message to log.
   # @param progname [String] The name of the program.
   def add(severity, message = nil, progname = nil)
     message, progname = yield if block_given?
 
-    if message
-      @redact_patterns.each do |pattern|
+    @redact_patterns.each do |pattern|
+      case message
+
+      when String
         message = message.to_s.gsub(pattern, @redacted_msg)
+
+      when Array
+        message = message.map do |m|
+          m = m.to_s.gsub(pattern, @redacted_msg)
+        end
+
+      when Hash
+        message = message.map do |k, v|
+          [k, v.to_s.gsub(pattern, @redacted_msg)]
+        end.to_h
       end
     end
 

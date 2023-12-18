@@ -112,10 +112,10 @@ describe RedactingLogger do
         expected_message: { this: "is", "a" => "[REDACTED]" },
       },
     ].each do |test|
-        it "redacts #{test[:case]}" do
-          expect_any_instance_of(Logger).to receive(:add).with(0, test[:expected_message], test[:expected_progname])
-          logger.add(0, test[:message], test[:progname])
-        end
+      it "redacts #{test[:case]}" do
+        expect_any_instance_of(Logger).to receive(:add).with(0, test[:expected_message], test[:expected_progname])
+        logger.add(0, test[:message], test[:progname])
+      end
     end
 
     it "redacts with given block" do
