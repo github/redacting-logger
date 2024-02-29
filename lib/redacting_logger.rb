@@ -20,7 +20,7 @@ class RedactingLogger < Logger
   def initialize(
     logdev = $stdout,
     shift_age = 0,
-    shift_size = 1048576,
+    shift_size = 1_048_576,
     redact_patterns: [],
     redacted_msg: "[REDACTED]",
     use_default_patterns: true,
@@ -43,18 +43,18 @@ class RedactingLogger < Logger
     @redact_patterns.each do |pattern|
       case message
 
-      when String
+      when String, Symbol, Numeric
         message = message.to_s.gsub(pattern, @redacted_msg)
 
       when Array
         message = message.map do |m|
-          m = m.to_s.gsub(pattern, @redacted_msg)
+          m.to_s.gsub(pattern, @redacted_msg)
         end
 
       when Hash
-        message = message.map do |k, v|
-          [k, v.to_s.gsub(pattern, @redacted_msg)]
-        end.to_h
+        message = message.transform_values do |v|
+          v.to_s.gsub(pattern, @redacted_msg)
+        end
       end
     end
 

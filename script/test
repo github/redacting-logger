@@ -49,17 +49,10 @@ export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
 if [[ -z $no_bootstrap ]]; then
   # bootstrap
   echo -e "\n🥾 ${BLUE}Bootstrapping: $(date "+%H:%M:%S")${OFF}\n"
-  echo "%%%FOLD {bootstrap}%%%"
   cd "$DIR"
   script/bootstrap
-  echo "%%%END FOLD%%%"
 else
   echo -e "\n⏩ ${BLUE}Skipping Bootstrap${OFF}"
-fi
-
-# jump out to the lint build
-if [[ "$JOB_NAME" = *-lint ]]; then
-  exec script/cibuild-lint
 fi
 
 # Run Rubocop
