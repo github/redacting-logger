@@ -43,7 +43,7 @@ describe RedactingLogger do
 
   context "#add" do
     let(:logdev) { StringIO.new }
-    let(:logger) { RedactingLogger.new(logdev, redact_patterns: [/secret/, /password/, /token_[A-Z]{5}/]) }
+    let(:logger) { RedactingLogger.new(logdev, redact_patterns: [/secret/, /password/, /token_[A-Z]{5}/, /999999999/]) }
 
     [
       {
@@ -115,6 +115,21 @@ describe RedactingLogger do
         case: "hash of messages more complex",
         message: { this: "is", "a" => "super top secret" },
         expected_message: { this: "is", "a" => "super top [REDACTED]" }
+      },
+      {
+        case: "redacts from a symbol",
+        message: :top_secret,
+        expected_message: "top_[REDACTED]"
+      },
+      {
+        case: "redacts from a Numeric full match",
+        message: 999_999_999,
+        expected_message: "[REDACTED]"
+      },
+      {
+        case: "redacts from a Numeric match with extra numbers",
+        message: 123_999_999_999_123,
+        expected_message: "123[REDACTED]123"
       }
     ].each do |test|
       it "redacts #{test[:case]}" do

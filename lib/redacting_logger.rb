@@ -43,7 +43,7 @@ class RedactingLogger < Logger
     @redact_patterns.each do |pattern|
       case message
 
-      when String
+      when String, Symbol, Numeric
         message = message.to_s.gsub(pattern, @redacted_msg)
 
       when Array
