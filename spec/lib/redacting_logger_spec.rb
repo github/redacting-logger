@@ -111,6 +111,11 @@ describe RedactingLogger do
         message: { this: "is", "a" => "secret" },
         expected_message: { this: "is", "a" => "[REDACTED]" },
       },
+      {
+        case: "hash of messages more complex",
+        message: { this: "is", "a" => "super top secret" },
+        expected_message: { this: "is", "a" => "super top [REDACTED]" },
+      },
     ].each do |test|
       it "redacts #{test[:case]}" do
         expect_any_instance_of(Logger).to receive(:add).with(0, test[:expected_message], test[:expected_progname])
