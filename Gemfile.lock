@@ -40,7 +40,7 @@ GEM
     racc (1.7.3)
     rack (3.0.9.1)
     rainbow (3.1.1)
-    rdoc (6.6.2)
+    rdoc (6.6.3.1)
       psych (>= 4.0.0)
     regexp_parser (2.9.0)
     reline (0.4.3)
