@@ -135,6 +135,11 @@ describe RedactingLogger do
         case: "redacts a Slack webhook",
         message: "posting slack message to: https://hooks.slack.com/services/T1BAAA111/B0111AAA111/MMMAAA333CCC222bbbAAA111",
         expected_message: "posting slack message to: [REDACTED]"
+      },
+      {
+        case: "redacts a Slack token",
+        message: "using slack token: xoxb-2444333222111-2444333222111-123456789AbCdEfGHi123456",
+        expected_message: "using slack token: [REDACTED]"
       }
     ].each do |test|
       it "redacts #{test[:case]}" do
