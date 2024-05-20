@@ -150,6 +150,11 @@ describe RedactingLogger do
         case: "redacts a vault token",
         message: "logging into vault with token: s.FakeToken1234567890123456",
         expected_message: "logging into vault with token: [REDACTED]"
+      },
+      {
+        case: "redacts a RubyGems token",
+        message: "using rubygems token: rubygems_0123456789abcdef0123456789abcdef0123456789abcdef",
+        expected_message: "using rubygems token: rubygems_[REDACTED]"
       }
     ].each do |test|
       it "redacts #{test[:case]}" do
