@@ -130,6 +130,31 @@ describe RedactingLogger do
         case: "redacts from a Numeric match with extra numbers",
         message: 123_999_999_999_123,
         expected_message: "123[REDACTED]123"
+      },
+      {
+        case: "redacts a Slack webhook",
+        message: "posting slack message to: https://hooks.slack.com/services/T1BAAA111/B0111AAA111/MMMAAA333CCC222bbbAAA111",
+        expected_message: "posting slack message to: [REDACTED]"
+      },
+      {
+        case: "redacts a Slack workflow webhook",
+        message: "workflow: https://hooks.slack.com/workflows/abc123XYZ/def456UVW/123456789/abcdefghijklmnopqrstuvwx",
+        expected_message: "workflow: [REDACTED]"
+      },
+      {
+        case: "redacts a Slack token",
+        message: "using slack token: xoxb-2444333222111-2444333222111-123456789AbCdEfGHi123456",
+        expected_message: "using slack token: [REDACTED]"
+      },
+      {
+        case: "redacts a vault token",
+        message: "logging into vault with token: s.FakeToken1234567890123456",
+        expected_message: "logging into vault with token: [REDACTED]"
+      },
+      {
+        case: "redacts a RubyGems token",
+        message: "using rubygems token: rubygems_0123456789abcdef0123456789abcdef0123456789abcdef",
+        expected_message: "using rubygems token: rubygems_[REDACTED]"
       }
     ].each do |test|
       it "redacts #{test[:case]}" do
