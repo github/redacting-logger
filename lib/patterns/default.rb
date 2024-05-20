@@ -11,7 +11,8 @@ module Patterns
     %r{https://hooks\.slack\.com/services/[a-zA-Z0-9]{9,}/[a-zA-Z0-9]{9,}/[a-zA-Z0-9]{24}}, # Slack webhook
     %r{https://hooks\.slack\.com/workflows/[a-zA-Z0-9]{9,}/[a-zA-Z0-9]{9,}/[0-9]+?/[a-zA-Z0-9]{24}}, # Slack workflow
     /xoxp-(?:[0-9]{7,})-(?:[0-9]{7,})-(?:[0-9]{7,})-(?:[0-9a-f]{6,})|xoxb-(?:[0-9]{7,})-(?:[A-Za-z0-9]{14,})|xoxs-(?:[0-9]{7,})-(?:[0-9]{7,})-(?:[0-9]{7,})-(?:[0-9a-f]{7,})|xoxa-(?:[0-9]{7,})-(?:[0-9]{7,})-(?:[0-9]{7,})-(?:[0-9a-f]{7,})|xoxo-(?:[0-9]{7,})-(?:[A-Za-z0-9]{14,})|xoxa-2-(?:[0-9]{7,})-(?:[0-9]{7,})-(?:[0-9]{7,})-(?:[0-9a-f]{7,})|xoxr-(?:[0-9]{7,})-(?:[0-9]{7,})-(?:[0-9]{7,})-(?:[0-9a-f]{7,})|xoxb-(?:[0-9]{7,})-(?:[0-9]{7,})-(?:[A-Za-z0-9]{14,})/, # Slack tokens
-    /[sb]\.[a-zA-Z0-9]{24,}/, # vault token
+    /[sbr]\.[a-zA-Z0-9]{24,}/, # vault token for 1.9.x or earlier
+    /hv[sbr]\.[a-zA-Z0-9]{24,}/, # vault token for 1.10 and later
     /rubygems_[0-9a-f]{48}/ # RubyGems token
   ].freeze
 end
