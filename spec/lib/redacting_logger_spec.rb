@@ -137,6 +137,11 @@ describe RedactingLogger do
         expected_message: "posting slack message to: [REDACTED]"
       },
       {
+        case: "redacts a Slack workflow webhook",
+        message: "workflow: https://hooks.slack.com/workflows/abc123XYZ/def456UVW/123456789/abcdefghijklmnopqrstuvwx",
+        expected_message: "workflow: [REDACTED]"
+      },
+      {
         case: "redacts a Slack token",
         message: "using slack token: xoxb-2444333222111-2444333222111-123456789AbCdEfGHi123456",
         expected_message: "using slack token: [REDACTED]"
