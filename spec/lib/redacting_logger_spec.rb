@@ -130,6 +130,11 @@ describe RedactingLogger do
         case: "redacts from a Numeric match with extra numbers",
         message: 123_999_999_999_123,
         expected_message: "123[REDACTED]123"
+      },
+      {
+        case: "redacts a Slack webhook",
+        message: "posting slack message to: https://hooks.slack.com/services/T1BAAA111/B0111AAA111/MMMAAA333CCC222bbbAAA111",
+        expected_message: "posting slack message to: [REDACTED]"
       }
     ].each do |test|
       it "redacts #{test[:case]}" do
