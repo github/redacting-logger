@@ -140,6 +140,11 @@ describe RedactingLogger do
         case: "redacts a Slack token",
         message: "using slack token: xoxb-2444333222111-2444333222111-123456789AbCdEfGHi123456",
         expected_message: "using slack token: [REDACTED]"
+      },
+      {
+        case: "redacts a vault token",
+        message: "logging into vault with token: s.FakeToken1234567890123456",
+        expected_message: "logging into vault with token: [REDACTED]"
       }
     ].each do |test|
       it "redacts #{test[:case]}" do
