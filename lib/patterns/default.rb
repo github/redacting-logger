@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # This module contains the default patterns to redact.
+# These patterns are sourced from different places on the internet, some came from https://github.com/l4yton/RegHex
 module Patterns
   DEFAULT = [
     # GitHub Personal Access Token
