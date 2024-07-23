@@ -4,6 +4,10 @@
 # These patterns are sourced from different places on the internet, some came from https://github.com/l4yton/RegHex
 module Patterns
   DEFAULT = [
+    # RubyGems Token
+    # https://guides.rubygems.org/api-key-scopes/
+    /rubygems_[0-9a-f]{48}/,
+
     # GitHub Personal Access Token
     # https://github.blog/2021-04-05-behind-githubs-new-authentication-token-formats/
     /ghp_[A-Za-z0-9]{36,}|[0-9A-Fa-f]{40,}/,
@@ -42,11 +46,7 @@ module Patterns
 
     # Vault Tokens
     # https://github.com/hashicorp/vault/issues/27151
-    /[sbr]\.[a-zA-Z0-9]{24,}/,   # <= 1.9.x
-    /hv[sbr]\.[a-zA-Z0-9]{24,}/, # >= 1.10
-
-    # RubyGems Token
-    # https://guides.rubygems.org/api-key-scopes/
-    /rubygems_[0-9a-f]{48}/
+    /[sbr]\.[a-zA-Z0-9]{24,}/, # <= 1.9.x
+    /hv[sbr]\.[a-zA-Z0-9]{24,}/ # >= 1.10
   ].freeze
 end

@@ -154,7 +154,7 @@ describe RedactingLogger do
       {
         case: "redacts a RubyGems token",
         message: "using rubygems token: rubygems_0123456789abcdef0123456789abcdef0123456789abcdef",
-        expected_message: "using rubygems token: rubygems_[REDACTED]"
+        expected_message: "using rubygems token: [REDACTED]"
       }
     ].each do |test|
       it "redacts #{test[:case]}" do
