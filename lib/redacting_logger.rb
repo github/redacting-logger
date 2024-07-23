@@ -30,6 +30,8 @@ class RedactingLogger < Logger
     @redact_patterns = redact_patterns
     @redacted_msg = redacted_msg
     @redact_patterns += Patterns::DEFAULT if use_default_patterns
+
+    @redact_patterns = Regexp.union(@redact_patterns)
   end
 
   # Adds a message to the log.
@@ -40,29 +42,23 @@ class RedactingLogger < Logger
   def add(severity, message = nil, progname = nil)
     message, progname = yield if block_given?
 
-    @redact_patterns.each do |pattern|
-      case message
+    case message
 
-      when String, Symbol, Numeric
-        message = message.to_s.gsub(pattern, @redacted_msg)
+    when String, Symbol, Numeric
+      message = message.to_s.gsub(@redact_patterns, @redacted_msg)
 
-      when Array
-        message = message.map do |m|
-          m.to_s.gsub(pattern, @redacted_msg)
-        end
+    when Array
+      message = message.map do |m|
+        m.to_s.gsub(@redact_patterns, @redacted_msg)
+      end
 
-      when Hash
-        message = message.transform_values do |v|
-          v.to_s.gsub(pattern, @redacted_msg)
-        end
+    when Hash
+      message = message.transform_values do |v|
+        v.to_s.gsub(@redact_patterns, @redacted_msg)
       end
     end
 
-    if progname
-      @redact_patterns.each do |pattern|
-        progname = progname.to_s.gsub(pattern, @redacted_msg)
-      end
-    end
+    progname = progname.to_s.gsub(@redact_patterns, @redacted_msg) if progname
 
     super
   end

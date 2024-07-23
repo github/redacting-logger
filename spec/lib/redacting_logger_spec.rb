@@ -19,7 +19,7 @@ describe RedactingLogger do
       )
 
       expect(logger.level).to eq(level)
-      expect(logger.instance_variable_get(:@redact_patterns)).to eq(redact_patterns)
+      expect(logger.instance_variable_get(:@redact_patterns)).to eq(/secret|password/)
       expect(logger.instance_variable_get(:@logdev).dev).to eq($stdout)
       expect(logger.instance_variable_get(:@redacted_msg)).to eq("!!!REDACTED!!!")
     end
@@ -27,7 +27,7 @@ describe RedactingLogger do
     it "ensures the class is initialized properly with default values" do
       logger = RedactingLogger.new(use_default_patterns: false)
       expect(logger.level).to eq(Logger::DEBUG)
-      expect(logger.instance_variable_get(:@redact_patterns)).to eq([])
+      expect(logger.instance_variable_get(:@redact_patterns)).to eq(/(?!)/)
       expect(logger.instance_variable_get(:@logdev).dev).to eq($stdout)
       expect(logger.instance_variable_get(:@redacted_msg)).to eq("[REDACTED]")
     end
@@ -35,7 +35,7 @@ describe RedactingLogger do
     it "ensures the class is initialized properly with default values and uses built-in patterns" do
       logger = RedactingLogger.new($stdout, use_default_patterns: true)
       expect(logger.level).to eq(Logger::DEBUG)
-      expect(logger.instance_variable_get(:@redact_patterns).length).to be > 0
+      expect(logger.instance_variable_get(:@redact_patterns).to_s.length).to be > 0
       expect(logger.instance_variable_get(:@logdev).dev).to eq($stdout)
       expect(logger.instance_variable_get(:@redacted_msg)).to eq("[REDACTED]")
     end
@@ -46,6 +46,11 @@ describe RedactingLogger do
     let(:logger) { RedactingLogger.new(logdev, redact_patterns: [/secret/, /password/, /token_[A-Z]{5}/, /999999999/]) }
 
     [
+      {
+        case: "does not redact anything",
+        message: "This is a non-sensitive message with no redacted patterns",
+        expected_message: "This is a non-sensitive message with no redacted patterns"
+      },
       {
         case: "secret message",
         message: "This is a secret password",
