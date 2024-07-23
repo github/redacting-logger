@@ -64,6 +64,6 @@ class RedactingLogger < Logger
       end
     end
 
-    super(severity, message, progname)
+    super
   end
 end
