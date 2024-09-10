@@ -7,7 +7,7 @@ gem "logger", "~> 1.6"
 group :development do
   gem "irb", "~> 1.14"
   gem "rspec", "~> 3.13"
-  gem "rubocop", "~> 1.65"
+  gem "rubocop", "~> 1.66"
   gem "rubocop-github", "~> 0.20"
   gem "rubocop-performance", "~> 1.21"
   gem "rubocop-rspec", "~> 3.0"
