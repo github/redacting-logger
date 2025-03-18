@@ -26,5 +26,8 @@ jobs:
           bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
 
+      - name: bootstrap
+        run: script/bootstrap
+
       - name: test
-        run: script/test -k
+        run: script/test

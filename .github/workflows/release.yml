@@ -28,7 +28,7 @@ jobs:
         run: script/bootstrap
 
       - name: lint
-        run: bundle exec rubocop -c .rubocop.yml lib/ spec/
+        run: script/lint
 
       - name: test
         run: script/test
