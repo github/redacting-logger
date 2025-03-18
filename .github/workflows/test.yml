@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: [ '3.1.2', '3.1.4', '3.2.2', '3.2.3', '3.3.0', '3.3.1' ]
+        ruby: [ '3.1.2', '3.1.4', '3.2.2', '3.2.3', '3.3.0', '3.3.1', '3.4.0', '3.4.2' ]
 
     steps:
       - name: checkout
@@ -26,5 +26,8 @@ jobs:
           bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
 
+      - name: bootstrap
+        run: script/bootstrap
+
       - name: test
-        run: script/test -k
+        run: script/test
