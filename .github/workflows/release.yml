@@ -19,10 +19,12 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - uses: ruby/setup-ruby@354a1ad156761f5ee2b7b13fa8e09943a5e8d252 # pin@v1.229.0
         with:
-          bundler-cache: true
+          bundler-cache: false
 
       - name: bootstrap
         run: script/bootstrap
