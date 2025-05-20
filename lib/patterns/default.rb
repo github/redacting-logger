@@ -47,6 +47,9 @@ module Patterns
     # Vault Tokens
     # https://github.com/hashicorp/vault/issues/27151
     /[sbr]\.[a-zA-Z0-9]{24,}/, # <= 1.9.x
-    /hv[sbr]\.[a-zA-Z0-9]{24,}/ # >= 1.10
+    /hv[sbr]\.[a-zA-Z0-9]{24,}/, # >= 1.10
+
+    # Authorization bearer tokens
+    /(?i)authorization:\s+bearer\s+[A-Za-z0-9\-_\.=~+\/]+/,
   ].freeze
 end

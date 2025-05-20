@@ -160,6 +160,11 @@ describe RedactingLogger do
         case: "redacts a RubyGems token",
         message: "using rubygems token: rubygems_0123456789abcdef0123456789abcdef0123456789abcdef",
         expected_message: "using rubygems token: [REDACTED]"
+      },
+      {
+        case: "redacts authorization bearer token",
+        message: '-H  "Authorization: Bearer ab123456789a1abcd1~_.-+456ABCDE=" -H "Content-Type: application/json"',
+        expected_message: '-H  "[REDACTED]" -H "Content-Type: application/json"'
       }
     ].each do |test|
       it "redacts #{test[:case]}" do
