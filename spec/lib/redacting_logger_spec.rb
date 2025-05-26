@@ -170,6 +170,41 @@ describe RedactingLogger do
         case: "redacts authorization bearer token with case insensitivity",
         message: '-H  "authorizAtion: beaRer ab123456789a1abcd1~_.-+456ABCDE=" -H "Content-Type: application/json"',
         expected_message: '-H  "[REDACTED]" -H "Content-Type: application/json"'
+      },
+      {
+        case: "redacts authorization bearer token with extra spaces and tabs",
+        message: "authorization:    bearer   abcd1234",
+        expected_message: "[REDACTED]"
+      },
+      {
+        case: "redacts authorization bearer token with special characters",
+        message: "authorization: bearer aBcD-_=~+/1234",
+        expected_message: "[REDACTED]"
+      },
+      {
+        case: "redacts authorization bearer token at start of string",
+        message: "authorization: bearer tokenatstart",
+        expected_message: "[REDACTED]"
+      },
+      {
+        case: "redacts authorization bearer token at end of string",
+        message: "some text authorization: bearer tokenatend",
+        expected_message: "some text [REDACTED]"
+      },
+      {
+        case: "redacts multiple authorization bearer tokens in one string",
+        message: "authorization: bearer token1 and authorization: bearer token2",
+        expected_message: "[REDACTED] and [REDACTED]"
+      },
+      {
+        case: "redacts authorization bearer token with minimum plausible length",
+        message: "authorization: bearer a",
+        expected_message: "[REDACTED]"
+      },
+      {
+        case: "redacts authorization bearer token with maximum plausible length",
+        message: "authorization: bearer #{'a' * 256}",
+        expected_message: "[REDACTED]"
       }
     ].each do |test|
       it "redacts #{test[:case]}" do
