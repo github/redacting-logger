@@ -165,6 +165,11 @@ describe RedactingLogger do
         case: "redacts authorization bearer token",
         message: '-H  "Authorization: Bearer ab123456789a1abcd1~_.-+456ABCDE=" -H "Content-Type: application/json"',
         expected_message: '-H  "[REDACTED]" -H "Content-Type: application/json"'
+      },
+      {
+        case: "redacts authorization bearer token with case insensitivity",
+        message: '-H  "authorizAtion: beaRer ab123456789a1abcd1~_.-+456ABCDE=" -H "Content-Type: application/json"',
+        expected_message: '-H  "[REDACTED]" -H "Content-Type: application/json"'
       }
     ].each do |test|
       it "redacts #{test[:case]}" do
