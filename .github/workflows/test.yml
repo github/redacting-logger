@@ -19,9 +19,9 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - uses: ruby/setup-ruby@a4f838919020b587bb8dd4493e8881bb113d3be7 # pin@v1.246.0
+      - uses: ruby/setup-ruby@829114fc20da43a41d27359103ec7a63020954d4 # pin@v1.255.0
         with:
           bundler-cache: true
           ruby-version: ${{ matrix.ruby }}
