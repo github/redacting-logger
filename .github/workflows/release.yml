@@ -18,11 +18,11 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           persist-credentials: false
 
-      - uses: ruby/setup-ruby@a4f838919020b587bb8dd4493e8881bb113d3be7 # pin@v1.246.0
+      - uses: ruby/setup-ruby@44511735964dcb71245e7e55f72539531f7bc0eb # pin@v1.257.0
         with:
           bundler-cache: false
 
@@ -48,7 +48,7 @@ jobs:
           GEM_HOST_API_KEY=${{ secrets.GITHUB_TOKEN }} gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} ${{ env.GEM_NAME }}-${{ env.GEM_VERSION }}.gem
 
       - name: release
-        uses: ncipollo/release-action@bcfe5470707e8832e12347755757cec0eb3c22af # pin@v1.18.0
+        uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # pin@v1.20.0
         with:
           artifacts: "${{ env.GEM_NAME }}-${{ env.GEM_VERSION }}.gem"
           tag: "v${{ env.GEM_VERSION }}"
