@@ -12,7 +12,7 @@ module Patterns
     # https://github.blog/2021-04-05-behind-githubs-new-authentication-token-formats/
     /ghp_[A-Za-z0-9]{36,}|[0-9A-Fa-f]{40,}/,
     /github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}/, # Fine Grained
-    /ghs_[a-zA-Z0-9]{36}/, # Temporary Actions Tokens
+    /ghs_[A-Za-z0-9._]{36,}/, # GitHub App installation tokens
 
     # JWT Token
     # https://en.wikipedia.org/wiki/JSON_Web_Token

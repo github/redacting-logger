@@ -82,9 +82,14 @@ describe RedactingLogger do
         expected_message: "token [REDACTED]"
       },
       {
-        case: "github action pat",
+        case: "github app installation token",
         message: "token ghs_1234567890abcdefghijklmnopqrstuvwxyz123456",
-        expected_message: "token [REDACTED]123456"
+        expected_message: "token [REDACTED]"
+      },
+      {
+        case: "github app installation token with dots and underscores",
+        message: "token ghs_Abcdef1234567890ghijklmnopqrstu.vw_xyz.1234567890",
+        expected_message: "token [REDACTED]"
       },
       {
         case: "custom token",
