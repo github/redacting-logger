@@ -92,6 +92,31 @@ describe RedactingLogger do
         expected_message: "token [REDACTED]"
       },
       {
+        case: "github app installation token with dashes",
+        message: "token ghs_Abcdef-1234567890-ghijklmnopqrstu-vwxyz",
+        expected_message: "token [REDACTED]"
+      },
+      {
+        case: "github app installation token with mixed special chars",
+        message: "token ghs_abc.DEF-123_ghi.JKL-456_mno.PQR-789_stu",
+        expected_message: "token [REDACTED]"
+      },
+      {
+        case: "github app installation token at minimum length (36 chars after prefix)",
+        message: "token ghs_abcdefghijklmnopqrstuvwxyz1234567890",
+        expected_message: "token [REDACTED]"
+      },
+      {
+        case: "github app installation token longer than 36 chars",
+        message: "token ghs_abcdefghijklmnopqrstuvwxyz1234567890.extra-chars_here.more",
+        expected_message: "token [REDACTED]"
+      },
+      {
+        case: "github app installation token too short to match",
+        message: "token ghs_tooshort",
+        expected_message: "token ghs_tooshort"
+      },
+      {
         case: "custom token",
         message: "token token_ABCDE",
         expected_message: "token [REDACTED]"
