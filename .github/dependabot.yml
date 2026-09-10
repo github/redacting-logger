@@ -22,3 +22,5 @@ updates:
       interval: weekly
       day: "tuesday"
       time: "21:00"
+    cooldown:
+      default-days: 7
